@@ -26,17 +26,17 @@ jobs:
 
       - name: Build & Push imagen Docker
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/reply-service:latest uniforum-backend/reply-service
-          docker push ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest uniforum-backend/discussion-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest
 
       - name: Desplegar en EC2
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.EC2_HOST_REPLY }}
+          host: ${{ secrets.EC2_HOST_DISCUSSION }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
-            sudo docker stop reply-service || true
-            sudo docker rm reply-service || true
-            sudo docker run -d -p 8003:8003 --name reply-service ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest
+            sudo docker stop discussion-service || true
+            sudo docker rm discussion-service || true
+            sudo docker run -d -p 8003:8003 --name discussion-service ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest
