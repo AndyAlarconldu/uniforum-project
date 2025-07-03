@@ -1,4 +1,4 @@
-name: PROD Deploy - Reply Service
+name: PROD Deploy - Discussion Service
 
 on:
   pull_request:

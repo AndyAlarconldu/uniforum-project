@@ -18,7 +18,7 @@ load_dotenv()
 # - Database name: uniforum
 DATABASE_URL = os.getenv(
     "DATABASE_URL", 
-    "postgresql://uniforum_user:uniforum123@172.31.4.157:5432/uniforum"
+    "postgresql://uniforum_user:1234@172.31.4.157:5432/uniforum"
 )
 
 # Create database engine:
