@@ -36,7 +36,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/voting-service:latest
-            docker stop voting-service || true
-            docker rm voting-service || true
-            docker run -d -p 8006:8006 --name voting-service ${{ secrets.DOCKER_USERNAME }}/voting-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/voting-service:latest
+            sudo docker stop voting-service || true
+            sudo docker rm voting-service || true
+            sudo docker run -d -p 8006:8006 --name voting-service ${{ secrets.DOCKER_USERNAME }}/voting-service:latest
