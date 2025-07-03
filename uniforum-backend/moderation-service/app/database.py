@@ -15,7 +15,7 @@ load_dotenv()
 # - Host: 172.31.4.157 (private IP address)
 # - Port: 5432 (default PostgreSQL port)
 # - Database name: uniforum
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://uniforum_user:uniforum123@172.31.4.157:5432/uniforum")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://uniforum_user:1234@172.31.4.157:5432/uniforum")
 
 # Create the database engine:
 # - Manages connection pooling
