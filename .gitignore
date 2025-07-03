@@ -1,0 +1,64 @@
+# === BACKEND (Python) ===
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+venv/
+env/
+.venv/
+
+*.env
+
+# Carpetas de caché
+.cache/
+pytest_cache/
+*.log
+
+# Docker
+*.pid
+*.pid.lock
+*.sock
+docker-compose.override.yml
+
+# === FRONTEND (React) ===
+node_modules/
+dist/
+build/
+.env.local
+.env.development
+.env.production
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === SISTEMA Y EDITORES ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# === VSCODE ===
+.vscode/
+
+# === OUTPUT DE TEST O BUILD ===
+coverage/
+htmlcov/
+*.egg-info/
+*.egg
+.eggs/
+.mypy_cache/
+.pytest_cache/
+*.coverage
+coverage.xml
+nosetests.xml
+test-results.xml
+junit.xml
+.tox/
+
+# === GITHUB ===
+.github/*.log
