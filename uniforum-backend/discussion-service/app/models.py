@@ -22,7 +22,7 @@ class Post(Base):
     # nullable=False means this field is required
     content = Column(Text, nullable=False)
     
-    # Post date column with DateTime type
+    # Post date column with DateTime type TESTEo
     # server_default=func.now() sets the default to current timestamp
     # (automatically set by the database when record is created)
     post_date = Column(DateTime, server_default=func.now())
