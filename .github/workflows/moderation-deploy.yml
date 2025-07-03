@@ -36,7 +36,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/moderation-service:latest
-            docker stop moderation-service || true
-            docker rm moderation-service || true
-            docker run -d -p 8005:8005 --name moderation-service ${{ secrets.DOCKER_USERNAME }}/moderation-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/moderation-service:latest
+            sudo docker stop moderation-service || true
+            sudo docker rm moderation-service || true
+            sudo docker run -d -p 8005:8005 --name moderation-service ${{ secrets.DOCKER_USERNAME }}/moderation-service:latest

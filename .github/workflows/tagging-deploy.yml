@@ -36,7 +36,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/tagging-service:latest
-            docker stop tagging-service || true
-            docker rm tagging-service || true
-            docker run -d -p 8007:8007 --name tagging-service ${{ secrets.DOCKER_USERNAME }}/tagging-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tagging-service:latest
+            sudo docker stop tagging-service || true
+            sudo docker rm tagging-service || true
+            sudo docker run -d -p 8007:8007 --name tagging-service ${{ secrets.DOCKER_USERNAME }}/tagging-service:latest

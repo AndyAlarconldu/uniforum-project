@@ -36,7 +36,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
-            docker stop reply-service || true
-            docker rm reply-service || true
-            docker run -d -p 8004:8004 --name reply-service ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
+            sudo docker stop reply-service || true
+            sudo docker rm reply-service || true
+            sudo docker run -d -p 8004:8004 --name reply-service ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
