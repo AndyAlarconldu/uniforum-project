@@ -15,7 +15,7 @@ class PostOut(PostCreate):
     # Adds an additional field to the inherited PostCreate fields
     post_date: datetime  # Date/time when the post was created
 
-    # Configuration for the model
+    # Configuration for the model.
     model_config = {
         # Enables ORM mode (allows creating model from ORM objects/attributes)
         # Previously called 'orm_mode' in older Pydantic versions
