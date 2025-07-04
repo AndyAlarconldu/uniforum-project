@@ -2,7 +2,7 @@
 
 This microservice manages the course information available on the **UniForum** platform. It is built using **Python** and **FastAPI**.
 
----
+'''
 
 ## 🧱 Project Structure
 
@@ -20,7 +20,7 @@ course-service/
 ├── requirements.txt # Python dependencies
 └── README.md # Microservice documentation
 
----
+'''
 
 ## 🚀 Main Endpoints
 
