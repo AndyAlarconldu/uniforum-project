@@ -18,3 +18,4 @@ def get_enrollments_by_student(db: Session, student_id: str):
 
 def get_all_enrollments(db: Session):
     return db.query(Enrollment).all()
+#hi
