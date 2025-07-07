@@ -24,6 +24,7 @@ jobs:
       - name: Build & Push auth-service-final
         run: |
           cd uniforum-backend/user-management-domain/auth-service-final
+          chmod +x mvnw
           ./mvnw clean package -DskipTests
           docker build -t ${{ secrets.DOCKER_USERNAME }}/auth-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/auth-service:latest
@@ -31,6 +32,7 @@ jobs:
       - name: Build & Push authorization-service
         run: |
           cd uniforum-backend/user-management-domain/authorization-service
+          chmod +x mvnw
           ./mvnw clean package -DskipTests
           docker build -t ${{ secrets.DOCKER_USERNAME }}/authorization-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/authorization-service:latest
@@ -38,6 +40,7 @@ jobs:
       - name: Build & Push registro-usuarios
         run: |
           cd uniforum-backend/user-management-domain/registro-usuarios-correcto
+          chmod +x mvnw
           ./mvnw clean package -DskipTests
           docker build -t ${{ secrets.DOCKER_USERNAME }}/registro-usuarios:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/registro-usuarios:latest
