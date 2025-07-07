@@ -14,7 +14,7 @@ function Perfil() {
       }
                                 
       try {
-        const res = await fetch("http://localhost:8000/perfil/me", {
+        const res = await fetch("http://3.133.193.135:8000/perfil/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -46,6 +46,7 @@ function Perfil() {
   return (
     <div className="max-w-md mx-auto mt-6 bg-white p-6 shadow rounded">
       <h2 className="text-xl font-bold mb-4">Mi Perfil</h2>
+      <p><strong>Nombre:</strong> {perfil.first_name} {perfil.last_name}</p>
       <p><strong>Nombre:</strong> {perfil.first_name} {perfil.last_name}</p>
       <p><strong>Email:</strong> {perfil.email}</p>
       <p><strong>Fecha de registro:</strong> {new Date(perfil.registration_date).toLocaleDateString()}</p>

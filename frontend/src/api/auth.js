@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8082/auth"; // o IP real si ya está en EC2
+const API_URL = "http://3.133.193.135:8082/auth"; // o IP real si ya está en EC2
 
 // src/api/auth.js
 export const login = async (credentials) => {
