@@ -1,0 +1,5 @@
+com\uniforum\authorization\security\JwtUtil.class
+com\uniforum\authorization\security\SecurityConfig.class
+com\uniforum\authorization\controller\SecureController.class
+com\uniforum\authorization\AuthorizationApplication.class
+com\uniforum\authorization\security\JwtFilter.class

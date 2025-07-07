@@ -1,0 +1,10 @@
+com\uniforum\registro\config\CorsConfig.class
+com\uniforum\registro\config\CorsConfig$1.class
+com\uniforum\registro\repository\StudentRepository.class
+com\uniforum\registro\controller\StudentController.class
+com\uniforum\registro\model\Student.class
+com\uniforum\registro\model\University.class
+com\uniforum\registro\model\UniversityModerator.class
+com\uniforum\registro\repository\UniversityRepository.class
+com\uniforum\registro\repository\UniversityModeratorRepository.class
+com\uniforum\registro\RegistroUsuariosApplication.class

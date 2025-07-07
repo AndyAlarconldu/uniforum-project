@@ -1,0 +1,92 @@
+name: PROD Deploy - Academic Forum Domain
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [prod]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Login en DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build & Push de todos los servicios Python
+      - name: Build & Push discussion-service
+        run: |
+          cd uniforum-backend/academic-forum-domain/discussion-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest
+
+      - name: Build & Push history-service
+        run: |
+          cd uniforum-backend/academic-forum-domain/history-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/history-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/history-service:latest
+
+      - name: Build & Push moderation-service
+        run: |
+          cd uniforum-backend/academic-forum-domain/moderation-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/moderation-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/moderation-service:latest
+
+      - name: Build & Push reply-service
+        run: |
+          cd uniforum-backend/academic-forum-domain/reply-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/reply-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
+
+      - name: Build & Push tagging-service
+        run: |
+          cd uniforum-backend/academic-forum-domain/tagging-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/tagging-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/tagging-service:latest
+
+      - name: Build & Push voting-service
+        run: |
+          cd uniforum-backend/academic-forum-domain/voting-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/voting-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/voting-service:latest
+
+      # Despliegue en EC2
+      - name: Deploy en EC2 - Academic Forum Domain
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST_VOTING }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo docker network inspect uniforum-net >/dev/null 2>&1 || sudo docker network create uniforum-net
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest
+            sudo docker stop discussion-service || true && sudo docker rm discussion-service || true
+            sudo docker run -d -p 8003:8003 --name discussion-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/moderation-service:latest
+            sudo docker stop moderation-service || true && sudo docker rm moderation-service || true
+            sudo docker run -d -p 8005:8005 --name moderation-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/moderation-service:latest
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/voting-service:latest
+            sudo docker stop voting-service || true && sudo docker rm voting-service || true
+            sudo docker run -d -p 8006:8006 --name voting-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/voting-service:latest
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tagging-service:latest
+            sudo docker stop tagging-service || true && sudo docker rm tagging-service || true
+            sudo docker run -d -p 8007:8007 --name tagging-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/tagging-service:latest
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/history-service:latest
+            sudo docker stop history-service || true && sudo docker rm history-service || true
+            sudo docker run -d -p 8008:8008 --name history-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/history-service:latest
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
+            sudo docker stop reply-service || true && sudo docker rm reply-service || true
+            sudo docker run -d -p 8004:8004 --name reply-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
