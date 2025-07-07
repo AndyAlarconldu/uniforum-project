@@ -1,0 +1,6 @@
+com\uniforum\auth\repository\StudentRepository.class
+com\uniforum\auth\security\SecurityConfig.class
+com\uniforum\auth\security\JwtUtil.class
+com\uniforum\auth\controller\AuthController.class
+com\uniforum\auth\AuthApplication.class
+com\uniforum\auth\model\Student.class

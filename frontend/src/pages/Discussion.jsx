@@ -289,6 +289,15 @@ const Discussion = () => {
                 View replies
               </Link>
             </div>
+            <div className="mt-1">
+  <Link
+    to={`/post/${post.id_post}/history`}
+    className="text-purple-600 hover:underline text-sm"
+  >
+    View edit history
+  </Link>
+</div>
+
           </div>
         );
       })}
