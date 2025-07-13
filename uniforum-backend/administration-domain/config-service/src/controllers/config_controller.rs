@@ -2,11 +2,17 @@ use actix_web::{web, HttpResponse, Responder};
 use sqlx::PgPool;
 use crate::models::config::NewConfig;
 use crate::services::config_service;
+use serde_json::json;
 
 pub async fn get_configs(pool: web::Data<PgPool>) -> impl Responder {
     match config_service::get_all_configs(pool.get_ref()).await {
         Ok(cfgs) => HttpResponse::Ok().json(cfgs),
-        Err(_) => HttpResponse::InternalServerError().body("Error al obtener configuraciones"),
+        Err(e) => {
+            eprintln!("❌ Error al obtener configuraciones: {:?}", e);
+            HttpResponse::InternalServerError().json(json!({
+                "error": "Error al obtener configuraciones"
+            }))
+        }
     }
 }
 

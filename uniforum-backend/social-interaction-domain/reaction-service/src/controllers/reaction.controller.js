@@ -27,6 +27,7 @@ exports.createOrUpdateReaction = async (req, res) => {
     res.status(201).json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
+    console.error("Error en createOrUpdateReaction:", err);
   }
 };
 
@@ -41,6 +42,7 @@ exports.deleteReaction = async (req, res) => {
     res.json({ message: 'Reaction deleted' });
   } catch (err) {
     res.status(500).json({ error: err.message });
+    console.error("Error en getSummary:", err);
   }
 };
 
@@ -61,5 +63,6 @@ exports.getSummary = async (req, res) => {
     res.json(summary);
   } catch (err) {
     res.status(500).json({ error: err.message });
+    console.error("Error en getSummary:", err);
   }
 };

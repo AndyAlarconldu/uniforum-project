@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from . import crud, schemas, database
 from uuid import UUID
-
+from fastapi import Path
 router = APIRouter()
 
 def get_db():
@@ -22,9 +22,9 @@ def unfollow_user(followee_id: UUID, follower_id: UUID, db: Session = Depends(ge
     return {"detail": "Unfollowed"}
 
 @router.get("/followers/{user_id}", response_model=list[schemas.FollowOut])
-def get_followers(user_id: UUID, db: Session = Depends(get_db)):
+def get_followers(user_id: str, db: Session = Depends(get_db)):
     return crud.get_followers(db, user_id)
 
 @router.get("/following/{user_id}", response_model=list[schemas.FollowOut])
-def get_following(user_id: UUID, db: Session = Depends(get_db)):
+def get_following(user_id: str, db: Session = Depends(get_db)):
     return crud.get_following(db, user_id)

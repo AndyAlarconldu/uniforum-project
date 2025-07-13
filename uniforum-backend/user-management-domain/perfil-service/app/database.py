@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # URL connection to PostgreSQL docker
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://uniforum_user:1234@172.31.4.157:5432/uniforum")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://uniforum_user:1234@host.docker.internal:5432/uniforum")
 
 # Create engine
 engine = create_engine(DATABASE_URL)

@@ -14,7 +14,7 @@ function Perfil() {
       }
                                 
       try {
-        const res = await fetch("http://3.133.193.135:8000/perfil/me", {
+        const res = await fetch("http://localhost:8000/perfil/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

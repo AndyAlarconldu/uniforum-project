@@ -4,11 +4,13 @@ mod services;
 mod controllers;
 mod routes;
 
-use actix_web::{App, HttpServer};
+use actix_web::{App, HttpServer, web};
 use dotenv::dotenv;
 use sqlx::postgres::PgPoolOptions; // ← esto es importante
 use std::env;
 use routes::config_routes;
+use actix_cors::Cors;
+use actix_web::http::header;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -27,9 +29,16 @@ async fn main() -> std::io::Result<()> {
     println!("🚀 Servidor activo en http://localhost:{}", port);
 
     HttpServer::new(move || {
+         let cors = Cors::default()
+        .allow_any_origin() // ⚠️ o usa .allowed_origin("http://localhost:5173") si prefieres limitarlo
+        .allowed_methods(vec!["GET", "POST", "PUT"])
+        .allowed_headers(vec![header::CONTENT_TYPE])
+        .max_age(3600);
+
         App::new()
-            .app_data(actix_web::web::Data::new(pool.clone()))
-            .configure(config_routes)
+        .wrap(cors)
+        .app_data(web::Data::new(pool.clone()))
+        .configure(config_routes)
     })
     .bind(("0.0.0.0", port.parse().unwrap()))?
     .run()
