@@ -14,6 +14,15 @@ jobs:
       - name: Clonar repositorio
         uses: actions/checkout@v3
 
+      - name: Limpiar espacio en disco para evitar errores de almacenamiento
+        run: |
+          sudo docker system prune -a -f
+          sudo rm -rf /usr/local/share/gradle
+          sudo rm -rf /opt/hostedtoolcache
+          sudo rm -rf "$HOME/.cargo"
+          echo "Espacio disponible después de limpieza:"
+          df -h
+
       - name: Login en DockerHub
         uses: docker/login-action@v2
         with:
@@ -23,19 +32,19 @@ jobs:
       - name: Build & Push metrics-service
         run: |
           cd uniforum-backend/analysis-domain/metrics-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/metrics-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/metrics-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/metrics-service:latest
 
       - name: Build & Push heatmap-service
         run: |
           cd uniforum-backend/analysis-domain/heatmap-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/heatmap-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/heatmap-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/heatmap-service:latest
 
       - name: Build & Push top-topic-service
         run: |
           cd uniforum-backend/analysis-domain/top-topic-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/top-topic-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/top-topic-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/top-topic-service:latest
 
       - name: Desplegar en EC2 - Analysis Domain
