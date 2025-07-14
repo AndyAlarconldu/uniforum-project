@@ -14,15 +14,6 @@ jobs:
       - name: Clonar repositorio
         uses: actions/checkout@v3
 
-      - name: Limpiar espacio en disco para evitar errores de almacenamiento
-        run: |
-          sudo docker system prune -a -f
-          sudo rm -rf /usr/local/share/gradle
-          sudo rm -rf /opt/hostedtoolcache
-          sudo rm -rf "$HOME/.cargo"
-          echo "Espacio disponible después de limpieza:"
-          df -h
-
       - name: Login en DockerHub
         uses: docker/login-action@v2
         with:
