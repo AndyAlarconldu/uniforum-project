@@ -12,10 +12,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("❌ Error cargando .env")
-	}
+	_ = godotenv.Load()
 
 	db.InitDB()
 
