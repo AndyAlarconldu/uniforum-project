@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8012/api/schedules";
+const API_URL = "http://3.211.89.67/api/schedules";
 
 export const getSchedulesByCourse = async (course_id) => {
   const res = await axios.get(`${API_URL}/by-course?course_id=${course_id}`);

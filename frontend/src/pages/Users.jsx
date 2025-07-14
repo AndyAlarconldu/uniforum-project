@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import Chat from "./Chat";
 
-const USERS_API = "http://localhost:8030/students"; // user-service
-const FOLLOW_API = "http://localhost:8013/follow";  // follow-service
+const USERS_API = "http://3.211.89.67/students/manage"; // user-service
+const FOLLOW_API = "http://3.211.89.67/follow";  // follow-service
 
 const Users = () => {
   const { user } = useAuth();

@@ -1,5 +1,5 @@
 // Base URL for the API Gateway endpoint
-const API_URL = import.meta.env.VITE_DISCUSSION_SERVICE || "http://localhost:8003/discussions"; // API Gateway IP address
+const API_URL = import.meta.env.VITE_DISCUSSION_SERVICE || "http://3.211.89.67/discussions"; // API Gateway IP address
 
 /**
  * Fetches all posts from the API

@@ -1,6 +1,6 @@
 // Base URL for the Replies API endpoint
 // Note: There's a trailing slash that should be consistent with other API_URL declarations
-const API_URL = "http://3.128.173.203/replies/";
+const API_URL = "http://3.211.89.67/replies/";
 
 /**
  * Fetches all replies for a specific post

@@ -8,7 +8,7 @@ const Metrics = () => {
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
-        const res = await fetch("http://localhost:8020/metrics/summary");
+        const res = await fetch("http://3.211.89.67/metrics/summary");
         if (!res.ok) throw new Error("Error fetching metrics");
         const data = await res.json();
         setMetrics(data);
