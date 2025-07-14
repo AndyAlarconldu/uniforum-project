@@ -57,4 +57,4 @@ jobs:
 
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest
             sudo docker stop reaction-service || true && sudo docker rm reaction-service || true
-            sudo docker run -d -p 8016:8016 --name reaction-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest
+            sudo docker run -d -p 8016:8016 --name reaction-service --network uniforum-net -e DATABASE_URL=postgresql://uniforum_user:1234@18.213.7.19:5432/uniforum ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest

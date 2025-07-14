@@ -3,8 +3,8 @@ import { useAuth } from "../context/AuthContext";
 import io from "socket.io-client";
 import Reactions from "./Reactions"; // Asegúrate de mover esto si no está en pages
 
-const CHAT_API = "http://localhost:8014/messages";
-const SOCKET_SERVER = "http://localhost:8014";
+const CHAT_API = "http://3.211.89.67/messages";
+const SOCKET_SERVER = "http://52.22.121.35:8014";
 
 const Chat = ({ receiver }) => {
   const { user } = useAuth();
