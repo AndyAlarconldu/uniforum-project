@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getPosts } from "../api/discussion";
 import { getReplies, createReply } from "../api/reply";
 import { v4 as uuidv4 } from "uuid";
-
+import { useAuth } from "../context/AuthContext";
 /**
  * Reply Component - Displays a post and its replies with a reply form
  * Features:
@@ -20,7 +20,8 @@ const Reply = () => {
   const [post, setPost] = useState(null); // The original post
   const [replies, setReplies] = useState([]); // All replies to the post
   const [content, setContent] = useState(""); // Reply form content
-  const [studentId, setStudentId] = useState(""); // Student ID for reply author
+  // const [studentId, setStudentId] = useState(""); // Student ID for reply author
+  const { user } = useAuth();
 
   // 1. Load the original post when component mounts or postId changes
   useEffect(() => {
@@ -56,7 +57,7 @@ const Reply = () => {
       id_comment: uuidv4(), // Generate unique ID
       post_id: postId,
       content,
-      student_id: studentId || "demo-user-001", // Fallback to demo user
+      student_id: user?.id || "demo-user-001", // Fallback to demo user
     };
 
     try {
@@ -68,7 +69,7 @@ const Reply = () => {
       
       // Reset form fields
       setContent("");
-      setStudentId("");
+      // setStudentId("");
     } catch (err) {
       console.error("Error creating reply:", err);
     }
@@ -84,7 +85,7 @@ const Reply = () => {
       <div className="border p-4 rounded shadow mb-6">
         <h3 className="font-semibold">{post.title}</h3>
         <p>{post.content}</p>
-        <small className="text-gray-500">By: {post.student_id}</small>
+        <small className="text-gray-500">By: {user.sub}</small>
       </div>
 
       {/* Replies Section */}
@@ -93,7 +94,7 @@ const Reply = () => {
         replies.map((reply) => (
           <div key={reply.id_comment} className="border p-3 rounded mb-2 shadow-sm">
             <p>{reply.content}</p>
-            <small className="text-gray-500">By: {reply.student_id}</small>
+            <small className="text-gray-500">By: {user.sub}</small>
           </div>
         ))
       ) : (
@@ -107,14 +108,6 @@ const Reply = () => {
           placeholder="Your reply"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Student ID"
-          value={studentId}
-          onChange={(e) => setStudentId(e.target.value)}
-          className="w-full border p-2 rounded"
           required
         />
         <button 
