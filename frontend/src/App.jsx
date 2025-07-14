@@ -12,6 +12,12 @@ import RecoverPassword from "./pages/RecoverPassword";
 import History from "./pages/History";
 import Course from "./pages/Course";
 import Enrollment from './pages/Enrollment';
+import CourseForumLink from "./pages/CourseForumLink";
+import AdminDashboard from "./pages/AdminDashboard";
+import Users from "./pages/Users";
+import Ranking from "./pages/Ranking";
+
+
 function App() {
   const { user, logout } = useAuth();
 
@@ -30,10 +36,16 @@ function App() {
           <Link to="/courses" className="text-blue-600 font-semibold">
   Courses
 </Link>
+<Link to="/users" className="text-blue-600 font-semibold">Users</Link>
 <Link to="/enrollments" className="text-blue-600 hover:underline">Enrollments</Link>
+<Link to="/course-forum-links" className="text-blue-600 font-semibold">Course-Forum Links</Link>
+<Link to="/rankings" className="text-blue-500 hover:underline">View Rankings</Link>
           {user && (
   <Link to="/perfil" className="text-blue-600 font-semibold">Mi Perfil</Link>
   
+)}
+{user && (
+  <Link to="/admin" className="text-blue-600 font-semibold">Admin</Link>
 )}
 
           {user ? (
@@ -59,6 +71,7 @@ function App() {
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/login" element={<Login />} />
           <Route path="/recover" element={<RecoverPassword />} />
+          <Route path="/rankings" element={<Ranking />} />
           {/* Rutas protegidas */}
           <Route path="/discussion" element={
             <PrivateRoute>
@@ -91,6 +104,22 @@ function App() {
   </PrivateRoute>
 } />
 <Route path="/enrollments" element={<PrivateRoute><Enrollment /></PrivateRoute>} />
+<Route path="/course-forum-links" element={
+  <PrivateRoute>
+    <CourseForumLink />
+  </PrivateRoute>
+} />
+<Route path="/admin" element={
+  <PrivateRoute>
+    <AdminDashboard />
+  </PrivateRoute>
+} />
+<Route path="/users" element={
+  <PrivateRoute>
+    <Users />
+  </PrivateRoute>
+} />
+
         </Routes>
       </div>
     </Router>

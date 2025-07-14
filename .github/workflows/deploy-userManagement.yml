@@ -1,4 +1,4 @@
-name: PROD Deploy - User Management Domain
+name: QA Deploy - User Management Domain
 
 on:
   pull_request:
@@ -20,95 +20,53 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # ----------- JAVA SERVICES -----------
+      # ---- Build & Push ----
       - name: Build & Push auth-service-final
         run: |
           cd uniforum-backend/user-management-domain/auth-service-final
-          chmod +x mvnw
-          ./mvnw clean package -DskipTests
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/auth-service:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/auth-service:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/auth-service-final:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/auth-service-final:latest
 
       - name: Build & Push authorization-service
         run: |
           cd uniforum-backend/user-management-domain/authorization-service
-          chmod +x mvnw
-          ./mvnw clean package -DskipTests
           docker build -t ${{ secrets.DOCKER_USERNAME }}/authorization-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/authorization-service:latest
 
-      - name: Build & Push registro-usuarios
+      - name: Build & Push registro-usuarios-correcto
         run: |
           cd uniforum-backend/user-management-domain/registro-usuarios-correcto
-          chmod +x mvnw
-          ./mvnw clean package -DskipTests
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/registro-usuarios:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/registro-usuarios:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/registro-usuarios-correcto:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/registro-usuarios-correcto:latest
 
-      # ----------- PYTHON SERVICES -----------
-      - name: Build & Push perfil-service
+      - name: Build & Push user-service
         run: |
-          cd uniforum-backend/user-management-domain/perfil-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/perfil-service:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/perfil-service:latest
+          cd uniforum-backend/user-management-domain/user-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/user-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/user-service:latest
 
-      - name: Build & Push notification-service
-        run: |
-          cd uniforum-backend/user-management-domain/notification-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/notification-service:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/notification-service:latest
-
-      - name: Build & Push password-service
-        run: |
-          cd uniforum-backend/user-management-domain/password-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/password-service:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/password-service:latest
-
-      # ----------- DEPLOY EN EC2 -----------
+      # ---- Deploy remoto ----
       - name: Desplegar en EC2 - User Management Domain
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.EC2_HOST_DISCUSSION }}
+          host: ${{ secrets.EC2_HOST_USER_MANAGEMENT }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Crear red Docker (si no existe)
-            sudo docker network inspect uniforum-net >/dev/null 2>&1 || docker network create uniforum-net
+            sudo docker network inspect uniforum-net >/dev/null 2>&1 || sudo docker network create uniforum-net
 
-            # Desplegar RabbitMQ dentro de la red
-            sudo docker pull rabbitmq:3-management
-            sudo docker stop rabbitmq || true && docker rm rabbitmq || true
-            sudo docker run -d --name rabbitmq \
-              --network uniforum-net \
-              -p 5672:5672 -p 15672:15672 \
-              rabbitmq:3-management
-
-            # Desplegar password-service (usa RabbitMQ)
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/password-service:latest
-            sudo docker stop password-service || true && docker rm password-service || true
-            sudo docker run -d -p 8002:8002 \
-              --name password-service \
-              --network uniforum-net \
-              -e RABBITMQ_HOST=rabbitmq \
-              ${{ secrets.DOCKER_USERNAME }}/password-service:latest
-
-            # Resto de servicios (sin RabbitMQ)
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service:latest
-            sudo docker stop auth-service || true && docker rm auth-service || true
-            sudo docker run -d -p 8082:8082 --name auth-service ${{ secrets.DOCKER_USERNAME }}/auth-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/auth-service-final:latest
+            sudo docker stop auth-service-final || true && sudo docker rm auth-service-final || true
+            sudo docker run -d -p 8082:8082 --name auth-service-final --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/auth-service-final:latest
 
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/authorization-service:latest
-            sudo docker stop authorization-service || true && docker rm authorization-service || true
-            sudo docker run -d -p 8083:8083 --name authorization-service ${{ secrets.DOCKER_USERNAME }}/authorization-service:latest
+            sudo docker stop authorization-service || true && sudo docker rm authorization-service || true
+            sudo docker run -d -p 8083:8083 --name authorization-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/authorization-service:latest
 
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/registro-usuarios:latest
-            sudo docker stop registro-usuarios || true && docker rm registro-usuarios || true
-            sudo docker run -d -p 8081:8081 --name registro-usuarios ${{ secrets.DOCKER_USERNAME }}/registro-usuarios:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/registro-usuarios-correcto:latest
+            sudo docker stop registro-usuarios-correcto || true && sudo docker rm registro-usuarios-correcto || true
+            sudo docker run -d -p 8081:8081 --name registro-usuarios-correcto --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/registro-usuarios-correcto:latest
 
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/perfil-service:latest
-            sudo docker stop perfil-service || true && docker rm perfil-service || true
-            sudo docker run -d -p 8000:8000 --name perfil-service ${{ secrets.DOCKER_USERNAME }}/perfil-service:latest
-
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/notification-service:latest
-            sudo docker stop notification-service || true && docker rm notification-service || true
-            sudo docker run -d -p 8001:8001 --name notification-service ${{ secrets.DOCKER_USERNAME }}/notification-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/user-service:latest
+            sudo docker stop user-service || true && sudo docker rm user-service || true
+            sudo docker run -d -p 8030:8030 --name user-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/user-service:latest

@@ -1,10 +1,9 @@
 from pydantic import BaseModel
-from uuid import UUID
 from datetime import datetime
-
+from uuid import UUID
 class FollowCreate(BaseModel):
-    follower_id: UUID
-    followee_id: UUID
+    follower_id: str
+    followee_id: str
 
 class FollowOut(BaseModel):
     id: UUID
@@ -14,3 +13,6 @@ class FollowOut(BaseModel):
 
     class Config:
         from_attributes = True
+        json_encoders = {
+            UUID: lambda u: str(u)
+        }

@@ -1,0 +1,50 @@
+name: QA Deploy - Course Management Domain
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [qa]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Login en DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build & Push course-service
+        run: |
+          cd uniforum-backend/course-management-domain/course-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/course-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/course-service:latest
+
+      - name: Build & Push academic-schedule-service
+        run: |
+          cd uniforum-backend/course-management-domain/academic-schedule-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/academic-schedule-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/academic-schedule-service:latest
+
+      - name: Desplegar en EC2 - Course Management Domain
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST_COURSE_MANAGEMENT }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo docker network inspect uniforum-net >/dev/null 2>&1 || sudo docker network create uniforum-net
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/course-service:latest
+            sudo docker stop course-service || true && sudo docker rm course-service || true
+            sudo docker run -d -p 8009:8009 --name course-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/course-service:latest
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/academic-schedule-service:latest
+            sudo docker stop academic-schedule-service || true && sudo docker rm academic-schedule-service || true
+            sudo docker run -d -p 8012:8012 --name academic-schedule-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/academic-schedule-service:latest

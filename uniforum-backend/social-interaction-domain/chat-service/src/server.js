@@ -1,24 +1,37 @@
 require('dotenv').config();
 const express = require('express');
-const { createServer } = require('http');
-const { Server } = require('socket.io');
-const configureSocket = require('./socket');
-const routes = require('./routes');
+const http = require('http');
+const socketIo = require('socket.io');
+const cors = require('cors');
+const connectDB = require('./db');
+const chatRoutes = require('./routes');
 
 const app = express();
-const server = createServer(app);
-const io = new Server(server, {
+
+// Middlewares
+app.use(cors({ origin: '*' }));
+app.use(express.json());
+
+// Rutas
+app.use('/', chatRoutes);
+
+// HTTP + WebSocket
+const server = http.createServer(app);
+const io = socketIo(server, {
   cors: {
-    origin: "*"
+    origin: '*',
+    methods: ['GET', 'POST']
   }
 });
 
-app.use(express.json());
-app.use('/api', routes);
+// WebSocket handlers
+require('./socket')(io);
 
-configureSocket(io);
+// Conexión a la base de datos
+connectDB();
 
+// Iniciar servidor
 const PORT = process.env.PORT || 8014;
 server.listen(PORT, () => {
-  console.log(`🚀 Chat service running on port ${PORT}`);
+  console.log(`✅ Chat service running on port ${PORT}`);
 });

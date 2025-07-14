@@ -6,6 +6,7 @@ import { reportPost } from "../api/moderation";
 import { getPostScore, submitVote } from "../api/voting";
 import { getAllTags, assignTagToPost } from "../api/tagging";
 import { getTagsByPost } from "../api/tagging";
+import { useAuth } from "../context/AuthContext";
 
 /**
  * Discussion component - Main forum view for displaying and creating posts
@@ -22,6 +23,7 @@ const Discussion = () => {
   const [scores, setScores] = useState({}); // Stores vote scores for each post
   const [availableTags, setAvailableTags] = useState([]); // All available tags
   const [selectedTag, setSelectedTag] = useState(""); // Currently selected tag for new post
+  const { user } = useAuth();
 
   // Form state for new post creation
   const [formData, setFormData] = useState({
@@ -29,6 +31,15 @@ const Discussion = () => {
     content: "",
     student_id: "", // Temporary fixed user - TODO: Replace with auth
   });
+
+  useEffect(() => {
+  if (user?.sub) {
+    setFormData((prev) => ({
+      ...prev,
+      student_id: user.id,
+    }));
+  }
+}, [user]);
 
   /**
    * Initial data loading effect
@@ -93,6 +104,27 @@ const Discussion = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const sendMentions = async (text, origin_user_id, target_id) => {
+  try {
+    const res = await fetch("http://localhost:8018/mentions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        origin_user_id,
+        text,
+        target_id,
+      }),
+    });
+
+    if (!res.ok) throw new Error("Mention service error");
+    const data = await res.json();
+    console.log("✅ Mentions sent:", data.mentioned);
+  } catch (err) {
+    console.error("❌ Error sending mentions:", err.message);
+  }
+};
+
+
   /**
    * Handles new post submission
    * @param {Object} e - The submit event
@@ -110,7 +142,7 @@ const Discussion = () => {
     try {
       // Create the post
       const created = await createPost(newPost);
-
+      await sendMentions(formData.content, newPost.student_id, created.id_post);
       // Assign tag if one was selected
       if (selectedTag) {
         try {
@@ -161,15 +193,6 @@ const Discussion = () => {
           name="content"
           placeholder="Content"
           value={formData.content}
-          onChange={handleChange}
-          required
-          className="w-full border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="student_id"
-          placeholder="Student ID (stu001 for now)"
-          value={formData.student_id}
           onChange={handleChange}
           required
           className="w-full border p-2 rounded"
@@ -259,7 +282,7 @@ const Discussion = () => {
             </div>
 
             {/* Post metadata */}
-            <small className="text-gray-500">By: {post.student_id}</small>
+            <small className="text-gray-500">By: {user.sub}</small>
             
             {/* Tags display */}
             <div className="mt-2 text-sm text-gray-600">
