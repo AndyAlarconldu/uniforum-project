@@ -47,4 +47,4 @@ jobs:
 
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/academic-schedule-service:latest
             sudo docker stop academic-schedule-service || true && sudo docker rm academic-schedule-service || true
-            sudo docker run -d -p 8012:8012 --name academic-schedule-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/academic-schedule-service:latest
+            sudo docker run -d -p 8012:8012 --name academic-schedule-service --network uniforum-net -e DATABASE_URL=postgresql://uniforum_user:1234@18.213.7.19:5432/uniforum ${{ secrets.DOCKER_USERNAME }}/academic-schedule-service:latest
