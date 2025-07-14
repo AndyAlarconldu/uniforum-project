@@ -7,7 +7,7 @@ const Heatmap = () => {
 
   const fetchHeatmap = async () => {
     try {
-      const res = await fetch("http://localhost:8023/activity/heatmap");
+      const res = await fetch("http://3.211.89.67/activity/heatmap");
       if (!res.ok) throw new Error("Error al obtener la actividad");
       const data = await res.json();
       setHeatmapData(data);

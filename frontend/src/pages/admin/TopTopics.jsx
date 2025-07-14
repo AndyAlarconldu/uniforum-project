@@ -7,7 +7,7 @@ const TopTopics = () => {
   useEffect(() => {
     const fetchTopTags = async () => {
       try {
-        const res = await fetch("http://localhost:8021/top-tags");
+        const res = await fetch("http://3.211.89.67/top-tags");
         const data = await res.json();
         setTopics(data);
       } catch (err) {

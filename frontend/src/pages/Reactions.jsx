@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
-const REACTION_API = "http://localhost:8016/reaction";
+const REACTION_API = "http://3.211.89.67/reaction";
 
 const EMOJIS = {
   like: "👍",

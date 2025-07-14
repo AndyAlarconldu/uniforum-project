@@ -1,6 +1,6 @@
-C:\Users\mateo\Desktop\uniforum\uniforum-backend\auth-service-final\src\main\java\com\uniforum\auth\security\JwtUtil.java
-C:\Users\mateo\Desktop\uniforum\uniforum-backend\auth-service-final\src\main\java\com\uniforum\auth\model\Student.java
-C:\Users\mateo\Desktop\uniforum\uniforum-backend\auth-service-final\src\main\java\com\uniforum\auth\repository\StudentRepository.java
-C:\Users\mateo\Desktop\uniforum\uniforum-backend\auth-service-final\src\main\java\com\uniforum\auth\controller\AuthController.java
-C:\Users\mateo\Desktop\uniforum\uniforum-backend\auth-service-final\src\main\java\com\uniforum\auth\AuthApplication.java
-C:\Users\mateo\Desktop\uniforum\uniforum-backend\auth-service-final\src\main\java\com\uniforum\auth\security\SecurityConfig.java
+C:\Users\mateo\Desktop\uniforum\uniforum-backend\user-management-domain\auth-service-final\src\main\java\com\uniforum\auth\security\JwtUtil.java
+C:\Users\mateo\Desktop\uniforum\uniforum-backend\user-management-domain\auth-service-final\src\main\java\com\uniforum\auth\security\SecurityConfig.java
+C:\Users\mateo\Desktop\uniforum\uniforum-backend\user-management-domain\auth-service-final\src\main\java\com\uniforum\auth\repository\StudentRepository.java
+C:\Users\mateo\Desktop\uniforum\uniforum-backend\user-management-domain\auth-service-final\src\main\java\com\uniforum\auth\model\Student.java
+C:\Users\mateo\Desktop\uniforum\uniforum-backend\user-management-domain\auth-service-final\src\main\java\com\uniforum\auth\AuthApplication.java
+C:\Users\mateo\Desktop\uniforum\uniforum-backend\user-management-domain\auth-service-final\src\main\java\com\uniforum\auth\controller\AuthController.java
