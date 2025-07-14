@@ -3,7 +3,6 @@ package main
 import (
 	"heatmap-service/db"
 	"heatmap-service/handlers"
-	"log"
 	"os"
 
 	"github.com/gin-contrib/cors"
