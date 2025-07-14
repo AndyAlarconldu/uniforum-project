@@ -23,14 +23,14 @@ const AdminDashboard = () => {
         >
           Course Management
         </button>
-        <button
+        {/* <button
           className={`px-4 py-2 rounded ${
             activeTab === "sync" ? "bg-blue-600 text-white" : "bg-gray-200"
           }`}
           onClick={() => setActiveTab("sync")}
         >
           LMS Sync Logs
-        </button>
+        </button> */}
         <button
           className={`px-4 py-2 rounded ${
             activeTab === "metrics" ? "bg-blue-600 text-white" : "bg-gray-200"
@@ -58,7 +58,7 @@ const AdminDashboard = () => {
 
       <div className="bg-white rounded shadow p-4">
         {activeTab === "courses" && <CourseManagement />}
-        {activeTab === "sync" && <SyncLogs />}
+        {/* {activeTab === "sync" && <SyncLogs />} */}
         {activeTab === "metrics" && <Metrics />}
         {activeTab === "topics" && <TopTopics />}
          {activeTab === "heatmap" && <Heatmap />}
