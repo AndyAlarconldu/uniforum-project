@@ -1,0 +1,60 @@
+name: QA Deploy - Social Interaction Domain
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [qa]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Login en DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build & Push chat-service
+        run: |
+          cd uniforum-backend/social-interaction-domain/chat-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/chat-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/chat-service:latest
+
+      - name: Build & Push follow-service
+        run: |
+          cd uniforum-backend/social-interaction-domain/follow-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/follow-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/follow-service:latest
+
+      - name: Build & Push reaction-service
+        run: |
+          cd uniforum-backend/social-interaction-domain/reaction-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest
+
+      - name: Desplegar en EC2 - Social Interaction Domain
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST_SOCIAL_INTERACTION }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo docker network inspect uniforum-net >/dev/null 2>&1 || sudo docker network create uniforum-net
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/chat-service:latest
+            sudo docker stop chat-service || true && sudo docker rm chat-service || true
+            sudo docker run -d -p 8014:8014 --name chat-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/chat-service:latest
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/follow-service:latest
+            sudo docker stop follow-service || true && sudo docker rm follow-service || true
+            sudo docker run -d -p 8013:8013 --name follow-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/follow-service:latest
+
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest
+            sudo docker stop reaction-service || true && sudo docker rm reaction-service || true
+            sudo docker run -d -p 8016:8016 --name reaction-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest

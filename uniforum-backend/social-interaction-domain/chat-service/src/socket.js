@@ -3,7 +3,7 @@ const redis = require('redis');
 
 // Cliente Redis
 const redisClient = redis.createClient({
-  url: 'redis://host.docker.internal:6379'
+  url: 'redis://107.20.72.252:6379'
 });
 
 redisClient.connect()

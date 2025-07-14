@@ -3,7 +3,7 @@ const router = express.Router();
 const Message = require('./models/message.model');
 const axios = require('axios');
 
-const USER_SERVICE_URL = 'http://localhost:8030/students'; // Ajusta si es diferente
+const USER_SERVICE_URL = 'http://107.21.103.84:8030/students'; // Ajusta si es diferente
 
 async function getUser(id) {
   try {
