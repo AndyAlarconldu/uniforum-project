@@ -31,7 +31,7 @@ function RegisterUser() {
     };
 
     try {
-      await axios.post('http://localhost:8081/students', payload);
+      await axios.post('http://3.211.89.67/students/register', payload);
       alert('Usuario registrado con éxito');
     } catch (error) {
       console.error(error);

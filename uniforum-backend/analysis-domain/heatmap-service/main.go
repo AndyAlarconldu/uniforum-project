@@ -3,7 +3,6 @@ package main
 import (
 	"heatmap-service/db"
 	"heatmap-service/handlers"
-	"log"
 	"os"
 
 	"github.com/gin-contrib/cors"
@@ -12,10 +11,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("❌ Error cargando .env")
-	}
+	_ = godotenv.Load()
 
 	db.InitDB()
 

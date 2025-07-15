@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode"; //  CORRECTO
 
 const AuthContext = createContext();
 
-const AUTH_SERVICE_URL = "http://localhost:8083/secure/student"; // Ajusta si cambia
+const AUTH_SERVICE_URL = "http://3.211.89.67/secure/student"; // Ajusta si cambia
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

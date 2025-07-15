@@ -32,14 +32,14 @@ function App() {
         <nav className="bg-white shadow px-4 py-2 flex gap-4 items-center">
           <Link to="/" className="text-blue-600 font-semibold">Home</Link>
           <Link to="/discussion" className="text-blue-600 font-semibold">Academic Forum</Link>
-          <Link to="/recover" className="text-blue-600 font-semibold">Recuperar contraseña</Link>
+          {/* <Link to="/recover" className="text-blue-600 font-semibold">Recuperar contraseña</Link> */}
           <Link to="/courses" className="text-blue-600 font-semibold">
   Courses
 </Link>
 <Link to="/users" className="text-blue-600 font-semibold">Users</Link>
-<Link to="/enrollments" className="text-blue-600 hover:underline">Enrollments</Link>
-<Link to="/course-forum-links" className="text-blue-600 font-semibold">Course-Forum Links</Link>
-<Link to="/rankings" className="text-blue-500 hover:underline">View Rankings</Link>
+{/* <Link to="/enrollments" className="text-blue-600 hover:underline">Enrollments</Link> */}
+{/* <Link to="/course-forum-links" className="text-blue-600 font-semibold">Course-Forum Links</Link> */}
+{/* <Link to="/rankings" className="text-blue-500 hover:underline">View Rankings</Link> */}
           {user && (
   <Link to="/perfil" className="text-blue-600 font-semibold">Mi Perfil</Link>
   

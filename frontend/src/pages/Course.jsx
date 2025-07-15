@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const COURSE_API = "http://localhost:8009";      // Ajusta si usas otra IP/puerto
-const SCHEDULE_API = "http://localhost:8012";    // Microservicio de horarios
+const COURSE_API = "http://3.211.89.67";      // Ajusta si usas otra IP/puerto
+const SCHEDULE_API = "http://3.211.89.67";    // Microservicio de horarios
 
 const Course = () => {
   const [courses, setCourses] = useState([]);

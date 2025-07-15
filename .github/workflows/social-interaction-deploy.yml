@@ -49,7 +49,7 @@ jobs:
 
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/chat-service:latest
             sudo docker stop chat-service || true && sudo docker rm chat-service || true
-            sudo docker run -d -p 8014:8014 --name chat-service --network uniforum-net -e MONGODB_URI="mongodb://root:secret@107.20.72.252:27017/chat?authSource=admin" ${{ secrets.DOCKER_USERNAME }}/chat-service:latest
+            sudo docker run -d -p 8014:8014 --name chat-service --network uniforum-net -e MONGODB_URI="mongodb://root:secret@18.213.7.19:27017/chat?authSource=admin" ${{ secrets.DOCKER_USERNAME }}/chat-service:latest
 
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/follow-service:latest
             sudo docker stop follow-service || true && sudo docker rm follow-service || true
@@ -57,4 +57,4 @@ jobs:
 
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest
             sudo docker stop reaction-service || true && sudo docker rm reaction-service || true
-            sudo docker run -d -p 8016:8016 --name reaction-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest
+            sudo docker run -d -p 8016:8016 --name reaction-service --network uniforum-net -e DATABASE_URL=postgresql://uniforum_user:1234@18.213.7.19:5432/uniforum ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest
