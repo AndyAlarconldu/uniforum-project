@@ -24,5 +24,8 @@ func main() {
 	router.GET("/metrics/summary", handlers.GetSummary)
 
 	port := os.Getenv("PORT")
+	if port == "" {
+	port = "8020"
+	}
 	router.Run(":" + port)
 }

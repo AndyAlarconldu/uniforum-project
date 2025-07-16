@@ -23,19 +23,19 @@ jobs:
       - name: Build & Push chat-service
         run: |
           cd uniforum-backend/social-interaction-domain/chat-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/chat-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/chat-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/chat-service:latest
 
       - name: Build & Push follow-service
         run: |
           cd uniforum-backend/social-interaction-domain/follow-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/follow-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/follow-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/follow-service:latest
 
       - name: Build & Push reaction-service
         run: |
           cd uniforum-backend/social-interaction-domain/reaction-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/reaction-service:latest
 
       - name: Desplegar en EC2 - Social Interaction Domain

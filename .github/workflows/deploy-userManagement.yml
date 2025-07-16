@@ -24,25 +24,25 @@ jobs:
       - name: Build & Push auth-service-final
         run: |
           cd uniforum-backend/user-management-domain/auth-service-final
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/auth-service-final:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/auth-service-final:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/auth-service-final:latest
 
       - name: Build & Push authorization-service
         run: |
           cd uniforum-backend/user-management-domain/authorization-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/authorization-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/authorization-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/authorization-service:latest
 
       - name: Build & Push registro-usuarios-correcto
         run: |
           cd uniforum-backend/user-management-domain/registro-usuarios-correcto
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/registro-usuarios-correcto:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/registro-usuarios-correcto:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/registro-usuarios-correcto:latest
 
       - name: Build & Push user-service
         run: |
           cd uniforum-backend/user-management-domain/user-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/user-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/user-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/user-service:latest
 
       # ---- Deploy remoto ----
