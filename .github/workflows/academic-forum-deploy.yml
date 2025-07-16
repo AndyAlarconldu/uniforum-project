@@ -23,13 +23,13 @@ jobs:
       - name: Build & Push discussion-service
         run: |
           cd uniforum-backend/academic-forum-domain/discussion-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/discussion-service:latest
 
       - name: Build & Push reply-service
         run: |
           cd uniforum-backend/academic-forum-domain/reply-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/reply-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/reply-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/reply-service:latest
 
       - name: Desplegar en EC2 - Academic Forum Domain

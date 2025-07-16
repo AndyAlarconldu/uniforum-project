@@ -23,13 +23,13 @@ jobs:
       - name: Build & Push course-service
         run: |
           cd uniforum-backend/course-management-domain/course-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/course-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/course-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/course-service:latest
 
       - name: Build & Push academic-schedule-service
         run: |
           cd uniforum-backend/course-management-domain/academic-schedule-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/academic-schedule-service:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/academic-schedule-service:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/academic-schedule-service:latest
 
       - name: Desplegar en EC2 - Course Management Domain
