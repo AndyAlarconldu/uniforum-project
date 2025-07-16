@@ -15,14 +15,14 @@ const AdminDashboard = () => {
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
       <div className="flex space-x-4 mb-4">
-        <button
+        {/* <button
           className={`px-4 py-2 rounded ${
             activeTab === "courses" ? "bg-blue-600 text-white" : "bg-gray-200"
           }`}
           onClick={() => setActiveTab("courses")}
         >
           Course Management
-        </button>
+        </button> */}
         {/* <button
           className={`px-4 py-2 rounded ${
             activeTab === "sync" ? "bg-blue-600 text-white" : "bg-gray-200"
