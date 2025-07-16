@@ -57,4 +57,4 @@ jobs:
 
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/top-topic-service:latest
             sudo docker stop top-topic-service || true && sudo docker rm top-topic-service || true
-            sudo docker run -d -p 8021:8021 --name top-topic-service --network uniforum-net ${{ secrets.DOCKER_USERNAME }}/top-topic-service:latest
+            sudo docker run -d -p 8021:8021 --name top-topic-service --network uniforum-net -e DATABASE_URL=postgresql://uniforum_user:1234@18.213.7.19:5432/uniforum ${{ secrets.DOCKER_USERNAME }}/top-topic-service:latest
