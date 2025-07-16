@@ -4,7 +4,8 @@ on:
   pull_request:
     types: [closed]
     branches: [qa]
-
+    paths:
+      - 'uniforum-backend/academic-forum-domain/**'
 jobs:
   deploy:
     if: github.event.pull_request.merged == true
