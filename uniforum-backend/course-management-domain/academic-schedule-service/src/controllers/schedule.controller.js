@@ -23,7 +23,7 @@ exports.getById = async (req, res) => {
 
 exports.getByCourse = async (req, res) => {
   try {
-    const { courseId } = req.params;
+    const { courseId } = req.query;
     if (!courseId) return res.status(400).json({ error: "Missing courseId" });
 
     const result = await Schedule.findByCourseId(courseId);

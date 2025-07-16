@@ -31,15 +31,13 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY_2 }}
           source: "frontend/dist/*"
-          target: "/home/ubuntu/frontend"
+          target: "/var/www/html"
 
-      - name: Mover archivos a /var/www/html y reiniciar nginx
+      - name: Reiniciar Nginx en EC2
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST_FRONTEND }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY_2 }}
           script: |
-            sudo rm -rf /var/www/html/*
-            sudo mv /home/ubuntu/frontend/* /var/www/html/
             sudo systemctl restart nginx
