@@ -1,0 +1,45 @@
+name: QA Deploy - Frontend
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [qa]
+
+jobs:
+  deploy-frontend:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar dependencias
+        run: |
+          cd frontend
+          npm install
+
+      - name: Construir frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Copiar archivos a EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST_FRONTEND }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY_2 }}
+          source: "frontend/dist/*"
+          target: "/home/ubuntu/frontend"
+
+      - name: Mover archivos a /var/www/html y reiniciar nginx
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST_FRONTEND }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY_2 }}
+          script: |
+            sudo rm -rf /var/www/html/*
+            sudo mv /home/ubuntu/frontend/* /var/www/html/
+            sudo systemctl restart nginx
